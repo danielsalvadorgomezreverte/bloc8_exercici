@@ -1,32 +1,46 @@
-name: Deploy MkDocs
-
-on:
-  push:
+name: deploy # Nombre de la automatización
+on: # Eventos
+  push: # Al hacer push
     branches:
-      - main
+      - main # Quan es fa un push a la branca main
+  workflow_dispatch:  # Lanzamiento manual
 
-permissions: # Permisos para la automatización
+permissions: # Permisos concedidos a la automatización
   contents: read
   pages: write
   id-token: write
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
 
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v6
-
-      - name: Instalar Python
-        uses: actions/setup-python@v6
+jobs: # Tareas a ejecutar a executar
+  build: # Construcción
+    runs-on: ubuntu-latest        # Sistema operativo onde se ejecuta la tarea
+    steps: # Pasos para la tarea build
+      - uses: actions/checkout@v6 # Acción para clonar y copiar el repositori al entorno de ejecución
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6 # Acción para configurar Python
         with:
           python-version: 3.x
+          cache: 'pip'
+      - name: Install dependencies # Acción para instalar las dependencias
+        run: pip install mkdocs-git-committers-plugin-2~=2.5
+      - name: Build # Acción para compilar la documentación
+        run: mkdocs build --clean
+      - name: Upload static files as artifact # Acción para subir ficheros estáticos como artefacto
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./site/ # Ruta de los ficheros estátics generados por MkDocs
 
-      - name: Instalar dependencias
-        run: |
-          pip install mkdocs mkdocs-material
-
-      - name: Build y deploy
-        run: |
-          mkdocs gh-deploy --force
+  deploy: # Despliegue
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest 
+    needs: build # Esta tarea depende de que acabe build
+    steps: 
+      - name: Deploy to GitHub Pages # Acción para desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
