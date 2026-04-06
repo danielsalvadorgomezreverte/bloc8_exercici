@@ -26,7 +26,7 @@ jobs: # Tareas a ejecutar a executar
           python-version: 3.x
           cache: 'pip'
       - name: Install dependencies # Acción para instalar las dependencias
-        run: pip install -r requeriments.txt
+        run: pip install -r requirements.txt
       - name: Build # Acción para compilar la documentación
         run: mkdocs build --clean
       - name: Upload static files as artifact # Acción para subir ficheros estáticos como artefacto
