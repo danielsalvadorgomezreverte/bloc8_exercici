@@ -4,7 +4,7 @@ dev_addr: 127.0.0.1:4567
 
 nav:
   - Inicio: index.md
-  - Acerca de mi: aboutMe.md
+  - Acerca de mi: about.md
 
 theme:
  name: mkdocs 
