@@ -1,0 +1,22 @@
+name: Build and Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar MkDocs
+        run: |
+          pip install mkdocs mkdocs-material
+
+      - name: Build y deploy
+        run: |
+          mkdocs gh-deploy --force

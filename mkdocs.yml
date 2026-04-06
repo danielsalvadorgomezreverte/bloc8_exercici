@@ -1,0 +1,17 @@
+site_name: Práctica Automatización con GitHub Actions
+site_author: "Daniel S. Gómez Reverte"
+dev_addr: 127.0.0.1:4567
+
+nav:
+  - Inicio: index.md
+  - Acerca de mi: aboutMe.md
+
+theme:
+ name: mkdocs 
+ local: es
+ user_color_mode_toggle: true
+ color_mode: clear
+ 
+
+
+  
