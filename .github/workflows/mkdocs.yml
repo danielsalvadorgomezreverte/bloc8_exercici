@@ -2,7 +2,7 @@ name: deploy # Nombre de la automatización
 on: # Eventos
   push: # Al hacer push
     branches:
-      - main # Quan es fa un push a la branca main
+      - main # Cuando se haga PUSH a la rama main
   workflow_dispatch:  # Lanzamiento manual
 
 permissions: # Permisos concedidos a la automatización
